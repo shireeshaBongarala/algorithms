@@ -15,14 +15,15 @@ public class Abbreviation {
     }
 
     private static int isAbbreviation(String a, String b, int i, int j, int[][] memo) {
-        if((i>= a.length() && j<b.length()) || j> b.length()) return -1;
+        if (j == b.length() && i < a.length()) {
+            if (Character.isUpperCase(a.charAt(i))) return -1;
+            else return isAbbreviation(a, b, i + 1, j, memo);
+        }
+        if (j == b.length() && i == a.length()) return 1;
+        if (j < b.length() && i == a.length()) return -1;
         if (j < b.length() && memo[i][j] != 0) return memo[i][j];
         int answer = 0;
-        if (j == b.length()) {
-            return  1;
-        } else if (i >= a.length()) {
-           return -1;
-        } else if (a.charAt(i) == b.charAt(j)) {
+        if (a.charAt(i) == b.charAt(j)) {
             answer = isAbbreviation(a, b, i + 1, j + 1, memo);
         } else if (Character.toUpperCase(a.charAt(i)) == b.charAt(j)) {
             answer = Math.max(isAbbreviation(a, b, i + 1, j + 1, memo), isAbbreviation(a, b, i + 1, j, memo));
