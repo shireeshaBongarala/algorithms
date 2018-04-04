@@ -8,25 +8,44 @@ public class MedianFinding {
     static int getNotificationCount(int[] arr, int d){
         PriorityQueue<Integer> minQueue = new PriorityQueue<>();
         PriorityQueue<Integer> maxQueue = new PriorityQueue<>(Collections.reverseOrder());
-        boolean insertIntoMinQueue = true;
-        boolean deleteAtMinQueue = true;
-        for (int i = 0 ; i< arr.length; i++) {
-         if(insertIntoMinQueue) {
-             minQueue.add(arr[i]);
-         }   else {
-             maxQueue.add(arr[i]);
-         }
-         double median = arr[0];
-         if(i%2 == 0 && i> 0){
-          median = maxQueue.peek();
-         } else if(i>0) {
-             median = (minQueue.peek() + maxQueue.peek())/2.0;
-         }
+        double median = arr[0];
+        maxQueue.add(arr[0]);
+        System.out.println(median + " at " + 0);
+        for(int i = 1; i < arr.length; i++) {
+            int minQueueSize = minQueue.size();
+            int maxQueueSize = maxQueue.size();
 
+            if(minQueueSize == maxQueueSize){
+                if(arr[i] > median) {
+                    minQueue.add(arr[i]);
+                    median = minQueue.peek();
+                } else {
+                    maxQueue.add(arr[i]);
+                    median = maxQueue.peek();
+                }
+            } else if(minQueueSize < maxQueueSize){
+                if(arr[i] > median){
+                    minQueue.add(arr[i]);
+                    median = (minQueue.peek() + maxQueue.peek())/2.0;
+                } else {
+                    minQueue.add(maxQueue.poll());
+                    maxQueue.add(arr[i]);
+                    median = (minQueue.peek() + maxQueue.peek())/2.0;
+                }
+            } else  {
+                if(arr[i] > median) {
+                    maxQueue.add(minQueue.poll());
+                    minQueue.add(arr[i]);
+                    median = (minQueue.peek() + maxQueue.peek())/2.0;
+                } else {
+                    maxQueue.add(arr[i]);
+                    median = (maxQueue.peek() + minQueue.peek())/2.0;
+                }
+            }
             System.out.println(median + " at " + i);
-
-            insertIntoMinQueue = !insertIntoMinQueue;
         }
+
+
         return 0;
     }
 
