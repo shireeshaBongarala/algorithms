@@ -8,7 +8,6 @@ public class Anagrams {
     static int makingAnagrams(String s1, String s2) {
         // Complete this function
         char[] charA = s1.toCharArray();
-        Math.sqrt()
         char[] charB = s2.toCharArray();
 
         HashMap<Character, Integer> mapA = new HashMap();
