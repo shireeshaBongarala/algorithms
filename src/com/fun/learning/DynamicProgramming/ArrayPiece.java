@@ -1,10 +1,12 @@
 package com.fun.learning.DynamicProgramming;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ArrayPiece {
     public static void main(String[] args) {
         int arr[] = new int[] {3, 4, 7, 9, 6};
+        Arrays.sort(arr);
 
         ArrayList<String> output = makePiece(arr, 0, arr.length -1);
         for (String s : output) {

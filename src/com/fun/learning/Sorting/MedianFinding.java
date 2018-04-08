@@ -10,23 +10,32 @@ public class MedianFinding {
         PriorityQueue<Integer> maxQueue = new PriorityQueue<>(Collections.reverseOrder());
         double median = arr[0];
         maxQueue.add(arr[0]);
+        int counter = 0;
         System.out.println(median + " at " + 0);
         for (int i = 1; i < arr.length; i++) {
             addNumber(minQueue, maxQueue, arr[i]);
             rebalanceTree(minQueue, maxQueue);
             median = getMedian(minQueue, maxQueue);
-            System.out.println(median + " at " + i);
+            if ((i+1 >= d) && (i+1 < arr.length)) {
+                if(arr[i+1] > (2 * median)) counter++;
+                if(i>= d)deleteElement(minQueue, maxQueue, arr[i- d]);
+            }
         }
-        return 0;
+        return counter;
+    }
+
+    private static void deleteElement(PriorityQueue<Integer> minQueue, PriorityQueue<Integer> maxQueue, int i) {
+        if(minQueue.contains(i)) minQueue.remove(i);
+        else maxQueue.remove(i);
     }
 
     private static void rebalanceTree(PriorityQueue<Integer> minQueue, PriorityQueue<Integer> maxQueue) {
         int minQueueSize = minQueue.size();
         int maxQueueSize = maxQueue.size();
 
-        if(Math.abs(minQueueSize - maxQueueSize) <2) return;
+        if (Math.abs(minQueueSize - maxQueueSize) < 2) return;
 
-        if(minQueueSize > maxQueueSize){
+        if (minQueueSize > maxQueueSize) {
             maxQueue.add(minQueue.poll());
         } else minQueue.add(maxQueue.poll());
     }
@@ -38,10 +47,10 @@ public class MedianFinding {
         if (minQueueSize < maxQueueSize)
             return maxQueue.peek();
 
-        if(minQueueSize > maxQueueSize)
-            return  minQueue.peek();
+        if (minQueueSize > maxQueueSize)
+            return minQueue.peek();
 
-        return  (minQueue.peek() + maxQueue.peek())/2.0;
+        return (minQueue.peek() + maxQueue.peek()) / 2.0;
     }
 
     private static void addNumber(PriorityQueue<Integer> minQueue, PriorityQueue<Integer> maxQueue, int number) {
@@ -54,8 +63,9 @@ public class MedianFinding {
     }
 
     public static void main(String[] args) {
-        int arr[] = {4, 5, 6, 3, 2, 1};
-        getNotificationCount(arr, 0);
+        int arr[] = {2 ,3 ,4 ,2, 3 ,6, 8, 4, 5};
+        System.out.println(getNotificationCount(arr, 5));
+
 
     }
 }
