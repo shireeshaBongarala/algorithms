@@ -18,7 +18,7 @@ public class PaintersPartition {
     } else if(count > k){
       count = getMaxSum(boards, min, mid);
     }
-    
+    System.out.println(count);
   }
 
   private static int getMaxSum(int[] boards, int min, int max) {
